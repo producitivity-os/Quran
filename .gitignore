@@ -1,0 +1,102 @@
+# Node / frontend
+node_modules/
+dist/
+.vite/
+*.local
+
+# Yarn
+.yarn/cache/
+.yarn/unplugged/
+.yarn/build-state.yml
+.yarn/install-state.gz
+.pnp.*
+.yarnrc.yml
+
+# npm / pnpm
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Rust / Cargo
+target/
+**/target/
+
+# Tauri generated / build artifacts
+src-tauri/target/
+src-tauri/gen/
+src-tauri/.cargo/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# IDEs / editors
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Logs
+*.log
+logs/
+
+# Coverage / test output
+coverage/
+.nyc_output/
+
+# Temporary files
+tmp/
+temp/
+.cache/
+
+# Build artifacts
+*.dmg
+*.app
+*.msi
+*.exe
+*.deb
+*.AppImage
+*.rpm
+
+# Tauri mobile generated projects
+src-tauri/gen/android/
+src-tauri/gen/apple/
+
+# Optional local config
+*.local.json
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
