@@ -1,4 +1,4 @@
-import { Headphones, Play, Trash2, X } from "lucide-react";
+import { Headphones, Play, Trash2, X } from "@productivity-os/shared-ui/components/sf-symbols";
 import type { Recording } from "../shared/types";
 
 function duration(value: number) {

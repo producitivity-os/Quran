@@ -1,5 +1,5 @@
 import * as React from "react";
-import { X } from "lucide-react";
+import { X } from "@productivity-os/shared-ui/components/sf-symbols";
 import { QURAN_SURAHS } from "../../data/quran-data";
 import type { VerseRef } from "../shared/types";
 

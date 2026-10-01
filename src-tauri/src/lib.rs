@@ -947,7 +947,26 @@ pub fn run() {
             recordings: Mutex::new(HashMap::new()),
             content_root,
         })
+        .manage(desktop_menu::NativeMenuState::default())
+        .menu(|app| desktop_menu::standard_app_menu(app, "Quran"))
+        .on_menu_event(|app, event| {
+            if event.id().as_ref() == "app:settings" {
+                if let Err(error) = desktop_menu::show_preferences(app, "Quran") {
+                    eprintln!("could not open Quran Settings: {error}");
+                }
+                return;
+            }
+            desktop_menu::handle_menu_event(app, &event);
+        })
+        .on_window_event(|window, event| {
+            if matches!(event, tauri::WindowEvent::Destroyed) {
+                desktop_menu::cleanup_window(window.app_handle(), window.label());
+            }
+        })
         .setup(move |app| {
+            if let Err(error) = desktop_menu::apply_settings_cog_symbol() {
+                eprintln!("could not install the Quran Settings menu icon: {error}");
+            }
             let handle = app.handle().clone();
             let mut handled = false;
             if let Some(urls) = app.deep_link().get_current()? {
@@ -1016,6 +1035,7 @@ pub fn run() {
             delete_bookmark,
             get_reading_position,
             save_reading_position,
+            desktop_menu::commands::popup_native_context_menu,
         ])
         .run(tauri::generate_context!())
         .expect("error while running Quran");

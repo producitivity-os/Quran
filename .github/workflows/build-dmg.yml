@@ -1,0 +1,60 @@
+name: Build Quran macOS DMG
+
+on:
+  workflow_call:
+    inputs:
+      package_dmg:
+        description: Build and upload the unsigned universal DMG.
+        required: false
+        type: boolean
+        default: true
+    secrets:
+      SUBMODULES_TOKEN:
+        required: true
+
+jobs:
+  build:
+    runs-on: macos-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Check out the pinned monorepo revision
+        uses: actions/checkout@v6
+        with:
+          submodules: recursive
+          token: ${{ secrets.SUBMODULES_TOKEN }}
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - name: Enable Corepack
+        run: corepack enable
+      - name: Install Rust targets
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-darwin,x86_64-apple-darwin
+      - uses: Swatinem/rust-cache@v2
+      - name: Install dependencies
+        run: yarn install --immutable
+      - name: Validate Quran
+        run: |
+          yarn workspace quran build
+          cargo check -p quran
+      - name: Build unsigned universal DMG
+        if: inputs.package_dmg
+        run: yarn workspace quran tauri build --bundles dmg --target universal-apple-darwin --no-sign --ci
+      - name: Normalize DMG filename
+        if: inputs.package_dmg
+        shell: bash
+        run: |
+          mkdir -p release
+          dmg_path="$(find target/universal-apple-darwin/release/bundle/dmg -maxdepth 1 -type f -name '*.dmg' -print -quit)"
+          test -n "$dmg_path"
+          cp "$dmg_path" release/Quran-macOS-universal.dmg
+      - name: Upload Quran DMG
+        if: inputs.package_dmg
+        uses: actions/upload-artifact@v4
+        with:
+          name: Quran-macOS-universal
+          path: release/Quran-macOS-universal.dmg
+          if-no-files-found: error
+          retention-days: 14

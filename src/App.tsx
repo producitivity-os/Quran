@@ -1,6 +1,6 @@
 import * as React from "react";
 import { invoke } from "@tauri-apps/api/core";
-import { BookOpen } from "lucide-react";
+import { BookOpen } from "@productivity-os/shared-ui/components/sf-symbols";
 import { ReaderWorkspace } from "./features/reader/ReaderWorkspace";
 import type { RecordingTarget } from "./features/shared/types";
 import { WorkflowSession } from "./features/workflow-session/WorkflowSession";

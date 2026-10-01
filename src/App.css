@@ -1,4 +1,4 @@
-:root { font-family: Inter, ui-sans-serif, system-ui, sans-serif; color: #f4f2f8; background: #17161c; font-synthesis: none; }
+:root { --shared-ui-accent: #865af6; --shared-ui-accent-foreground: #fff; font-family: Inter, ui-sans-serif, system-ui, sans-serif; color: var(--foreground); background: var(--background); font-synthesis: none; }
 * { box-sizing: border-box; }
 html, body, #root { width: 100%; height: 100%; margin: 0; overflow: hidden; }
 button, input, select { font: inherit; }
@@ -6,7 +6,8 @@ button { color: inherit; }
 .quran-boot { height: 100%; display: grid; place-items: center; color: #865af6; background: #17161c; }
 .quran-boot svg { width: 42px; height: 42px; }
 .reader-workspace, .recitation-session { height: 100%; display: grid; background: radial-gradient(circle at 50% -10%, #2b253d 0, #1a1820 44%, #141319 100%); }
-.reader-workspace { grid-template-rows: 72px minmax(0, 1fr) 92px; }
+.reader-workspace { grid-template-columns: var(--application-sidebar-width) minmax(0, 1fr); }
+.reader-workspace-content { display: grid; min-height: 0; grid-template-rows: minmax(0, 1fr); background: radial-gradient(circle at 50% -10%, #2b253d 0, #1a1820 44%, #141319 100%); }
 .reader-header, .recitation-header { display: flex; align-items: center; justify-content: space-between; padding: 20px 28px 12px; border-bottom: 1px solid rgba(255,255,255,.08); }
 .reader-header h1, .recitation-header h1 { margin: 2px 0 0; font-size: 19px; letter-spacing: -.02em; }
 .reader-header small, .recitation-header small { color: #9d8fc7; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; font-size: 10px; }
@@ -80,4 +81,32 @@ button { color: inherit; }
 kbd { padding: 2px 5px; border: 1px solid rgba(255,255,255,.15); border-radius: 5px; background: rgba(255,255,255,.05); }
 .completion-message { display: flex; justify-content: center; align-items: center; gap: 8px; color: #72d4aa; font-weight: 700; }
 .page-loading { height: 100%; display: grid; place-items: center; color: #90899a; }
+.light .quran-boot { color: #7047dd; background: #f7f5fb; }
+.light .reader-workspace, .light .recitation-session, .light .reader-workspace-content { background: radial-gradient(circle at 50% -10%, #eee9fb 0, #f8f6fb 45%, #f3f1f6 100%); color: #26222d; }
+.light .reader-header, .light .recitation-header { border-bottom-color: rgba(57,47,74,.12); }
+.light .reader-header small, .light .recitation-header small, .light .range-dialog small, .light .history-panel small { color: #765eb1; }
+.light .reader-header > span, .light .reader-toolbar > button, .light .toolbar-action { color: #686270; }
+.light .mushaf-page { color: #29232d; border-color: rgba(112,71,221,.24); background: linear-gradient(145deg, rgba(255,255,253,.98), rgba(248,246,241,.98)); box-shadow: 0 22px 70px rgba(50,42,65,.13), inset 0 0 0 5px rgba(112,71,221,.025); }
+.light .mushaf-page-number, .light .ayah-marker, .light .mushaf-position-markers { color: #736c7b; }
+.light .mushaf-word:hover, .light .mushaf-word.is-selected { background: rgba(112,71,221,.1); }
+.light .mushaf-word.is-active { color: #7047dd; background: rgba(112,71,221,.14); }
+.light .mushaf-page.is-concealed .mushaf-line { border-color: rgba(72,64,82,.18); }
+.light .mushaf-position-markers span, .light .page-tabs button, .light .icon-button { background: rgba(75,64,91,.07); }
+.light .mushaf-position-markers .reading-marker { color: #7047dd; }
+.light .mushaf-position-markers .recitation-marker, .light .completion-message { color: #16845c; }
+.light .reader-toolbar, .light .recitation-toolbar { border-top-color: rgba(57,47,74,.12); background: rgba(250,248,252,.88); }
+.light .quran-attribution, .light .history-empty, .light .keyboard-help, .light .page-loading { color: #77717f; }
+.light .dialog-backdrop { background: rgba(45,38,55,.28); }
+.light .range-dialog { border-color: rgba(57,47,74,.13); background: #fbfafc; box-shadow: 0 30px 90px rgba(47,38,61,.2); }
+.light .range-grid fieldset { border-color: rgba(57,47,74,.14); }
+.light .range-grid legend { color: #403948; }
+.light .range-grid label, .light .history-summary span, .light .history-summary small, .light .recording-meta { color: #6f6877; }
+.light .range-grid select, .light .range-grid input { border-color: rgba(57,47,74,.16); color: #29252f; background: #fff; }
+.light .range-dialog footer button, .light .finish-checking { border-color: rgba(57,47,74,.14); background: rgba(75,64,91,.07); }
+.light .range-dialog footer .primary, .light .finish-checking { border-color: #7047dd; background: #7047dd; color: white; }
+.light .history-panel { border-left-color: rgba(57,47,74,.13); background: rgba(250,248,252,.98); box-shadow: -30px 0 80px rgba(47,38,61,.16); }
+.light .history-list article { background: rgba(75,64,91,.055); }
+.light .recitation-controls { border-top-color: rgba(57,47,74,.12); background: rgba(248,246,250,.96); }
+.light .recitation-waveform { background: rgba(75,64,91,.07); }
+.light kbd { border-color: rgba(57,47,74,.16); background: rgba(75,64,91,.06); }
 @media (max-width: 700px) { .mushaf-page { padding-inline: 20px; } .range-grid { grid-template-columns: 1fr; } .reader-stage { padding-inline: 12px; } .reader-toolbar { gap: 9px; } }

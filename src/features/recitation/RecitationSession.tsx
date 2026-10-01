@@ -1,7 +1,7 @@
 import * as React from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { getCurrentWindow } from "@tauri-apps/api/window";
-import { Check, Mic, Pause, Play, RotateCcw, Square, X } from "lucide-react";
+import { Check, Mic, Pause, Play, RotateCcw, Square, X } from "@productivity-os/shared-ui/components/sf-symbols";
 import { compactWaveformPeaks, recordingStorageMimeType } from "../../recording";
 import { loadQuranPage, pageForVerse, rangeVerseKeys } from "../reader/page-data";
 import { MushafPage } from "../reader/MushafPage";

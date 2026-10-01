@@ -15,6 +15,7 @@ tauri-build = { version = "2", features = [] }
 app-core = { path = "../../../../crates/core" }
 app-config = { path = "../../../../crates/config" }
 data-client = { path = "../../../../crates/client" }
+desktop-menu = { path = "../../../../crates/desktop-menu" }
 tauri = { version = "2", features = [] }
 tauri-plugin-deep-link = "2"
 tauri-plugin-single-instance = { version = "2", features = ["deep-link"] }

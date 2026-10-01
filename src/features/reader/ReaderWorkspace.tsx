@@ -1,6 +1,14 @@
 import * as React from "react";
 import { invoke } from "@tauri-apps/api/core";
-import { Bookmark, ChevronLeft, ChevronRight, History, Mic } from "lucide-react";
+import { Bookmark, ChevronLeft, ChevronRight, History, Mic } from "@productivity-os/shared-ui/components/sf-symbols";
+import {
+  ApplicationSidebar,
+  ApplicationSidebarContent,
+  ApplicationSidebarItem,
+  ApplicationSidebarLayout,
+  ApplicationSidebarNav,
+  ApplicationSidebarSection,
+} from "@productivity-os/shared-ui/components/application-sidebar";
 import { QURAN_SURAHS } from "../../data/quran-data";
 import { HistoryPanel } from "../history/HistoryPanel";
 import { RecitationSession } from "../recitation/RecitationSession";
@@ -61,20 +69,40 @@ export function ReaderWorkspace() {
   const recitationKey = progress.recitation ? `${progress.recitation.surahNumber}:${progress.recitation.ayahNumber}` : null;
   const openRange = () => setRangeOpen(true);
 
-  return <main className="reader-workspace">
-    <header className="reader-header" data-tauri-drag-region><div><small>Al-Qur’an</small><h1>The Noble Quran</h1></div><span>Page {pageNumber} of 604</span></header>
-    <section className="reader-stage">
+  return <ApplicationSidebarLayout className="reader-workspace" accentColor="#865af6">
+    <ApplicationSidebar>
+      <ApplicationSidebarNav aria-label="Page navigation">
+        <ApplicationSidebarItem
+          icon={<ChevronLeft />}
+          label="Previous page"
+          disabled={pageNumber <= 1}
+          onClick={() => setPageNumber((value) => value - 1)}
+        />
+        <ApplicationSidebarItem
+          label={`Page ${pageNumber}`}
+          badge="604"
+          disabled
+        />
+        <ApplicationSidebarItem
+          icon={<ChevronRight />}
+          label="Next page"
+          disabled={pageNumber >= 604}
+          onClick={() => setPageNumber((value) => value + 1)}
+        />
+      </ApplicationSidebarNav>
+      <ApplicationSidebarSection label="Reader">
+        <ApplicationSidebarItem icon={<History />} label="History" onClick={() => setHistoryOpen(true)} />
+        <ApplicationSidebarItem icon={<Mic />} label="Record" onClick={openRange} />
+        <ApplicationSidebarItem icon={<Bookmark />} label="Bookmark" disabled />
+      </ApplicationSidebarSection>
+    </ApplicationSidebar>
+    <ApplicationSidebarContent className="reader-workspace-content">
+      <section className="reader-stage">
       {page ? <MushafPage page={page} readingVerseKey={readingKey} recitationVerseKey={recitationKey} onVerseClick={(surahNumber, ayahNumber) => {
         void invoke("save_reading_position", { input: { surahNumber, ayahNumber } }).then(() => setProgress((value) => ({ ...value, reading: { surahNumber, ayahNumber, updatedAt: Date.now() } })));
       }} /> : <div className="page-loading">Preparing the Mushaf page…</div>}
-    </section>
-    <footer className="reader-toolbar">
-      <button type="button" disabled={pageNumber <= 1} onClick={() => setPageNumber((value) => value - 1)}><ChevronLeft /><span>Previous</span></button>
-      <button type="button" onClick={() => setHistoryOpen(true)}><History /><span>History</span></button>
-      <button type="button" className="record-button" onClick={openRange} aria-label="Record recitation"><Mic /></button>
-      <button type="button" disabled><Bookmark /><span>Bookmark</span></button>
-      <button type="button" disabled={pageNumber >= 604} onClick={() => setPageNumber((value) => value + 1)}><span>Next</span><ChevronRight /></button>
-    </footer>
+      </section>
+    </ApplicationSidebarContent>
     {rangeOpen && first && last && <RangeDialog start={{ surahNumber: first.surahNumber, ayahNumber: first.ayahNumber }} end={{ surahNumber: last.surahNumber, ayahNumber: last.ayahNumber }} onCancel={() => setRangeOpen(false)} onConfirm={(start: VerseRef, end: VerseRef) => {
       const startSurahName = QURAN_SURAHS[start.surahNumber - 1]?.transliteration ?? `Surah ${start.surahNumber}`;
       const endSurahName = QURAN_SURAHS[end.surahNumber - 1]?.transliteration ?? `Surah ${end.surahNumber}`;
@@ -82,5 +110,5 @@ export function ReaderWorkspace() {
     }} />}
     {historyOpen && <HistoryPanel recordings={recordings} onClose={() => setHistoryOpen(false)} onOpen={(recording) => { setHistoryOpen(false); setSession(targetFromRecording(recording)); }} onDelete={(id) => { void invoke("delete_recording", { id }).then(refresh); }} />}
     <div className="quran-attribution">Quran Foundation QCF V2 · Quran text fallback © Tanzil Project, CC BY 3.0</div>
-  </main>;
+  </ApplicationSidebarLayout>;
 }
